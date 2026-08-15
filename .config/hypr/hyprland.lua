@@ -183,3 +183,40 @@ hl.window_rule({
 local screenshot = os.getenv("HOME") .. "/.local/bin/screenshot.sh"
 hl.bind("Print",         hl.dsp.exec_cmd(screenshot .. " area"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd(screenshot .. " screen"))
+
+--------------------
+---- 入力 ----
+--------------------
+hl.config({
+    input = {
+        kb_layout    = "jp",
+        kb_model     = "jp106",
+        follow_mouse = 1,
+        sensitivity  = 0,
+        touchpad = {
+            natural_scroll = false,
+        },
+    },
+})
+
+--------------------
+---- 自動起動 ----
+--------------------
+-- 【重要】ここを消さないこと。この設定を手でコピーしただけの環境でも
+-- バー・壁紙・ネットワークアイコンが出るように、単体で完結させてある。
+-- インストーラは「まだ書かれていない項目」だけを後から足す作りなので、
+-- ここに書いてあるものは二重に起動されない。
+--
+-- 【重要】waybar は少し待ってから起動する。コンポジタ起動と同時だと
+-- pipewire-pulse やシートの初期化が間に合わず、cava モジュールが即死して
+-- バーから消えるなどの不安定さが出る。
+--
+-- 【重要】各コマンドは存在確認してから起動する。未導入の環境で
+-- 起動に失敗しても、他の自動起動が巻き添えにならないようにするため。
+hl.on("hyprland.start", function()
+    hl.exec_cmd("sh -c 'sleep 1; command -v waybar >/dev/null && waybar'")
+    hl.exec_cmd("sh -c 'command -v nm-applet >/dev/null && nm-applet --indicator'")
+    hl.exec_cmd("sh -c '[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'")
+    -- 壁紙。設定は ~/.config/hypr/hyprpaper.conf を参照する。
+    hl.exec_cmd("sh -c 'command -v hyprpaper >/dev/null && hyprpaper'")
+end)
