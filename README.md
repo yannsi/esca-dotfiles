@@ -1,15 +1,15 @@
-# Niri Dotfiles
+# esca-dotfiles
 
-Arch Linux + Niri デスクトップ環境の設定ファイル集です。
-統一感のあるパステルテーマ（Catppuccin Mocha / Macchiato）で構成されています。
+Arch Linux + Niri / Hyprland デスクトップ環境の設定ファイル集です。
+統一感のあるパステルテーマ（Catppuccin Mocha / Macchiato）および Esca テーマで構成されています。
 
 ## 収録されている設定
 
-- **Window Manager**: Niri
+- **Window Manager**: Niri, Hyprland (`.config/hypr/hyprland.lua`)
 - **Status Bar**: Waybar（Fuzzelラジオ、Chrome/Firefoxランチャー、カレンダー、天気予報、CAVAビジュアライザー内蔵）
 - **Terminal**: Alacritty
 - **Launcher**: Fuzzel
-- **Screen Locker**: Swaylock
+- **Screen Locker / Logout**: Swaylock, wlogout
 - **Shell Prompt**: Starship
 
 ---
@@ -49,7 +49,7 @@ cat ~/.ssh/id_ed25519.pub
 ### 2. リポジトリのクローン
 
 ```bash
-git clone git@github.com:yannsi/niri_dotfiles.git ~/dotfiles
+git clone git@github.com:yannsi/esca-dotfiles.git ~/dotfiles
 ```
 
 ### 3. 設定の適用（自動スクリプト）

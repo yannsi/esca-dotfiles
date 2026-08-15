@@ -20,17 +20,19 @@ link_config() {
         mv "$CONFIG_DIR/$link_name" "$CONFIG_DIR/$link_name.bak"
     fi
 
-    # シンボリックリンクの作成（上書き強制）
-    ln -sf "$DOTFILES_DIR/.config/$target" "$CONFIG_DIR/$link_name"
+    # シンボリックリンクの作成（上書き強制、-nでディレクトリリンクの追跡防止）
+    ln -sfn "$DOTFILES_DIR/.config/$target" "$CONFIG_DIR/$link_name"
     echo "Linked $target -> $CONFIG_DIR/$link_name"
 }
 
 # リストにある設定をリンク
 link_config "niri" "niri"
+link_config "hypr" "hypr"
 link_config "waybar" "waybar"
 link_config "alacritty" "alacritty"
 link_config "fuzzel" "fuzzel"
 link_config "swaylock" "swaylock"
+link_config "wlogout" "wlogout"
 link_config "starship.toml" "starship.toml"
 
 echo "Setup complete! Please restart your shell or logout/login."
