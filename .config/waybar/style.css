@@ -186,8 +186,20 @@ tooltip label {
     color: #f9e2af; /* Yellow */
 }
 
+/* 天気情報カプセル（マークと温度をひとまとめにする背景） */
 #custom-weather {
     color: #74c7ec; /* Sapphire */
+    background-color: rgba(116, 199, 236, 0.16);
+    border: 1px solid rgba(116, 199, 236, 0.35);
+    border-radius: 8px;
+    margin: 2px 4px;
+    padding: 0 10px;
+    font-weight: 700;
+}
+
+#custom-weather:hover {
+    background-color: rgba(116, 199, 236, 0.28);
+    border-color: rgba(116, 199, 236, 0.6);
 }
 
 /* すっきりした時計表示 */
