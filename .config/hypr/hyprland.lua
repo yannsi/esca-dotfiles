@@ -211,12 +211,17 @@ hl.config({
 -- pipewire-pulse やシートの初期化が間に合わず、cava モジュールが即死して
 -- バーから消えるなどの不安定さが出る。
 --
--- 【重要】各コマンドは存在確認してから起動する。未導入の環境で
--- 起動に失敗しても、他の自動起動が巻き添えにならないようにするため。
+-- 【重要】`sh -c '...'` で包まないこと。
+-- 公式の example/hyprland.lua は
+--     hl.exec_cmd("waybar & hyprpaper & firefox")
+-- のように素のシェル文字列を渡す形しか示していない。exec_cmd 側が既に
+-- シェル経由で実行するため、さらに sh -c で包むと引用符が二重になり、
+-- Hyprland のコマンド分割で壊れて何も起動しないことがある。
+-- && や & といったシェル演算子は、包まずにそのまま書いてよい。
 hl.on("hyprland.start", function()
-    hl.exec_cmd("sh -c 'sleep 1; command -v waybar >/dev/null && waybar'")
-    hl.exec_cmd("sh -c 'command -v nm-applet >/dev/null && nm-applet --indicator'")
-    hl.exec_cmd("sh -c '[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'")
+    hl.exec_cmd("sleep 1 && waybar")
+    hl.exec_cmd("nm-applet --indicator")
+    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     -- 壁紙。設定は ~/.config/hypr/hyprpaper.conf を参照する。
-    hl.exec_cmd("sh -c 'command -v hyprpaper >/dev/null && hyprpaper'")
+    hl.exec_cmd("hyprpaper")
 end)
