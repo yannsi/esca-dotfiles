@@ -1,0 +1,11 @@
+# Backup and temporary files
+*.bak
+*.bak*
+*.antigravity_bak
+backups/
+archive/
+
+# Temporary OS / Editor files
+*~
+*.swp
+.DS_Store

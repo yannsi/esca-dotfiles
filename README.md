@@ -1,12 +1,12 @@
 # Niri Dotfiles
 
 Arch Linux + Niri デスクトップ環境の設定ファイル集です。
-統一感のあるパステルテーマ（Catppuccin Macchiato風）で構成されています。
+統一感のあるパステルテーマ（Catppuccin Mocha / Macchiato）で構成されています。
 
 ## 収録されている設定
 
 - **Window Manager**: Niri
-- **Status Bar**: Waybar
+- **Status Bar**: Waybar（Fuzzelラジオ、Chrome/Firefoxランチャー、カレンダー、天気予報、CAVAビジュアライザー内蔵）
 - **Terminal**: Alacritty
 - **Launcher**: Fuzzel
 - **Screen Locker**: Swaylock
@@ -14,13 +14,27 @@ Arch Linux + Niri デスクトップ環境の設定ファイル集です。
 
 ---
 
+## 主な機能と操作方法
+
+### Waybar の各モジュール
+- **メニュー（  ）**: Fuzzel アプリケーションランチャーを起動
+- **ブラウザ（  /  ）**: Firefox / Google Chrome をワンクリック起動（Chrome未インストール時は自動非表示）
+- **インターネットラジオ（  ）**:
+  - **左クリック**: Fuzzel で作業用BGM・ジャズ・クラシック・アニソン等の局を選択して再生
+  - **右クリック**: 再生中のラジオを即時停止
+- **メディア情報**: 再生中の楽曲・動画タイトルの表示と操作（クリックで再生/一時停止、右クリックで停止、中クリックでCAVA）
+- **音量 / 輝度**: マウスホイールで直感的に音量・明るさを調整
+- **天気予報**: 現在の気温・天気を表示（右クリックで地域変更ダイアログ）
+- **時計 / カレンダー**:
+  - **ホバー**: 月間カレンダーをポップアップ表示（ホイールスクロールで前月/翌月送り）
+  - **左クリック**: 時間表示と日付表示の切り替え
+- **電源（  ）**: 終了・再起動メニューの表示
+
+---
+
 ## 新しい環境でのセットアップ手順
 
-新しい Arch Linux 環境でこれらの設定を使用するための手順です。
-
 ### 1. GitとSSHの準備
-
-まず Git をインストールし、GitHub に接続できるように SSH 鍵を設定します。
 
 ```bash
 sudo pacman -S git openssh
@@ -33,8 +47,6 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 ### 2. リポジトリのクローン
-
-ホームディレクトリに設定をダウンロードします。
 
 ```bash
 git clone git@github.com:yannsi/niri_dotfiles.git ~/dotfiles
@@ -53,12 +65,13 @@ git clone git@github.com:yannsi/niri_dotfiles.git ~/dotfiles
 設定を正しく動作させるために、必要なアプリケーションとフォントをインストールします。
 
 ```bash
-# 必須パッケージ
-sudo pacman -S niri waybar alacritty fuzzel swaylock starship
+# 必須・基本パッケージ
+sudo pacman -S niri waybar alacritty fuzzel swaylock starship \
+               mpv cava playerctl brightnessctl wireplumber python
 
 # フォント（アイコン表示に必須）
 # AURヘルパー（yayなど）を使用している場合:
-yay -S ttf-hack-nerd
+yay -S ttf-hack-nerd ttf-jetbrains-mono noto-fonts-emoji
 ```
 
 インストール後、一度ログアウトして再ログインするか、再起動してください。

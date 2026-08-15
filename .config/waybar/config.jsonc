@@ -1,16 +1,14 @@
 // -*- mode: jsonc -*-
 {
-    // "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 30, // Waybar height (to be removed for auto height)
-    // "width": 1280, // Waybar width
-    "spacing": 4, // Gaps between modules (4px)
-    // Choose the order of the modules
+    "spacing": 4, // モジュール間のギャップ (4px)
+
+    // モジュールの配置順序
     "modules-left": [
         "custom/menu",
         "niri/workspaces",
         "custom/folder",
         "custom/firefox",
+        "custom/chrome",
         "custom/radio",
         "custom/media"
     ],
@@ -23,41 +21,34 @@
         "custom/backlight",
         "tray",
         "custom/weather",
-        "custom/clock",
+        "clock",
         "custom/power"
     ],
 
-    //音量
-    "wireplumber": {
-        "format": " {icon}{volume}% ",
-        "return-type": "json",
-        "format-muted": " 󰝟 ",
-        "format-icons": ["󰕿", "󰖀", "󰕾"],
-        // "on-click": "bash $HOME/.config/waybar/scripts/nizyuukidou.sh",
-        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && sleep 1",
-        "on-click-right": "alacritty -e alsamixer",
-        "max-volume": 150,
-        "scroll-step": 0.7,
-        "tooltip": true,
-        "tooltip-format": "音量（マウスホイールで調節・右クリックで alsamixer が開きます）"
-    },
+    // =========================================================================
+    // Modules: Left
+    // =========================================================================
 
-    "custom/power": {
-        "format" : "     ",
-        "tooltip": false,
-        "on-click": "$HOME/.config/waybar/scripts/power_menu_toggle.sh"
-    },
-    
-    "custom/menu":{
-        "format": "      ",
+    // アプリケーションメニュー (Fuzzel)
+    "custom/menu": {
+        "format": "  ",
         "tooltip": true,
         "tooltip-format": "メニュー",
         "on-click": "$HOME/.config/waybar/scripts/fuzzel_toggle.sh"
     },
 
-    //ファイラー
+    // Niri ワークスペース一覧
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        }
+    },
+
+    // ファイルマネージャー
     "custom/folder": {
-        "format": "    ",
+        "format": "  ",
         "tooltip": true,
         "tooltip-format": "ファイルマネージャー",
         "on-click": "nautilus",
@@ -65,26 +56,34 @@
         "on-click-middle": "alacritty -e ranger"
     },
 
-    //firefox（ブラウザ）
+    // Firefox ブラウザ
     "custom/firefox": {
-        "format": "    ",
+        "format": "  ",
         "tooltip": true,
-        "tooltip-format": "firefox ブラウザ",
+        "tooltip-format": "Firefox ブラウザ",
         "on-click": "firefox"
-        //"on-click-right": "killall firefox"
     },
 
-    //インターネットラジオ
+    // Google Chrome / Chromium（未インストール時は自動で非表示）
+    "custom/chrome": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "if command -v google-chrome-stable >/dev/null 2>&1; then echo '{\"text\":\"  \",\"tooltip\":\"Google Chrome\"}'; elif command -v chromium >/dev/null 2>&1; then echo '{\"text\":\"  \",\"tooltip\":\"Chromium\"}'; fi",
+        "interval": "once",
+        "on-click": "google-chrome-stable || google-chrome || chromium"
+    },
+
+    // インターネットラジオ（Fuzzelセレクター）
     "custom/radio": {
-        "format": "    ",
+        "format": "  ",
         "tooltip": true,
-        "tooltip-format": "インターネットラジオ",
-        "on-click": "mpv https://smoothjazz.cdnstream1.com/2585_128.mp3",
-        "on-click-right": "mpv https://stream.antenne.de/classic-rock-live/stream/mp3",
+        "tooltip-format": "インターネットラジオ（左クリック: 局選択 / 右クリック: 停止）",
+        "on-click": "bash $HOME/.config/waybar/scripts/radiostation.sh",
+        "on-click-right": "pkill -x mpv",
         "on-click-middle": "bash $HOME/.config/waybar/scripts/radiostation.sh"
     },
 
-    //動画や音楽の視聴時に表示される
+    // メディア再生情報 (MPRIS / Playerctl)
     "custom/media": {
         "format": " {icon}{text} ",
         "return-type": "json",
@@ -93,158 +92,103 @@
             "Paused": " ",
             "stop": " "
         },
-        "max-length":70,
+        "max-length": 70,
         "exec": "playerctl -a metadata --format '{\"text\": \"{{playerName}}: {{artist}}  {{markup_escape(title)}}\", \"tooltip\": \"{{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
         "on-click": "playerctl play-pause",
         "on-click-middle": "alacritty -e cava",
         "on-click-right": "playerctl stop"
     },
 
-    "niri/workspaces": {
-        "format": "{icon}",
-        "format-icons": {
-            "active": "",
-            "default": ""
-        }
-    },
-    
+    // =========================================================================
+    // Modules: Center
+    // =========================================================================
+
+    // アクティブウィンドウタイトル
     "niri/window": {
         "format": "{}",
-        "max-length": 50,
-        "rewrite": {
-            "": "Waybar"
-        }
+        "max-length": 50
     },
 
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
+    // CAVA オーディオビジュアライザー
+    "custom/cava": {
+        "exec": "/home/sk/.config/waybar/scripts/waybar_cava.py",
+        "format": "{}",
+        "return-type": "plaintext",
+        "tooltip": false
     },
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
-    },
-    "custom/clock": {
-        "exec": "$HOME/.config/waybar/scripts/clock.sh",
+
+    // =========================================================================
+    // Modules: Right
+    // =========================================================================
+
+    // 音量 (WirePlumber)
+    "wireplumber": {
+        "format": " {icon}{volume}% ",
         "return-type": "json",
-        "interval": 30,
-        "signal": 8,
-        "on-click": "$HOME/.config/waybar/scripts/clock_toggle.sh",
-        "on-click-right": "$HOME/.config/waybar/scripts/calendar_popup.sh"
+        "format-muted": " 󰝟 ",
+        "format-icons": ["󰕿", "󰖀", "󰕾"],
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && sleep 1",
+        "on-click-right": "alacritty -e alsamixer",
+        "max-volume": 150,
+        "scroll-step": 0.7,
+        "tooltip": true,
+        "tooltip-format": "音量（マウスホイールで調節・右クリックで alsamixer が開きます）"
     },
+
+    // バックライト輝度調整
+    "custom/backlight": {
+        "format": "  ",
+        "tooltip": true,
+        "tooltip-format": "バックライト(左クリック：明るくなる | 右クリック：暗くなる)",
+        "on-click": "brightnessctl s +4%",
+        "on-click-right": "brightnessctl s 4%-"
+    },
+
+    // システムトレイ
+    "tray": {
+        "spacing": 10
+    },
+
+    // 天気予報
     "custom/weather": {
         "format": "{}",
         "tooltip": true,
         "interval": 3600,
         "exec": "$HOME/.config/waybar/scripts/get_weather.py",
         "return-type": "json",
+        "signal": 9,
         "on-click-right": "$HOME/.config/waybar/scripts/set_weather_location.sh"
     },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10
-    },
 
-    "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
-    },
-    "memory": {
-        "format": "{}% "
-    },
-    "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
-    },
-   //バックライト
-    "custom/backlight": {
-        "format": "    ",
-        "tooltip": true,
-        "tooltip-format": "バックライト(左クリック：明るくなる | 右クリック：暗くなる)",
-        "on-click": "brightnessctl s +4% ",
-        "on-click-right": "brightnessctl s 4%-"
-    },
-    "battery": {
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
+    // 時計 & カレンダー（Waybar内蔵モジュール・ホバーで月間カレンダー表示）
+    "clock": {
+        "format": " {:%H:%M}",
+        "format-alt": " {:%Y-%m-%d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#cba6f7'><b>{}</b></span>",
+                "days": "<span color='#cdd6f4'><b>{}</b></span>",
+                "weeks": "<span color='#a6e3a1'><b>W{}</b></span>",
+                "weekdays": "<span color='#fab387'><b>{}</b></span>",
+                "today": "<span color='#f38ba8'><b><u>{}</u></b></span>"
+            }
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
-    "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": "",
-        "performance": "",
-        "balanced": "",
-        "power-saver": ""
-      }
-    },
-    "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "actions": {
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
 
-    "custom/cava": {
-        "exec": "/home/sk/.config/waybar/scripts/waybar_cava.py",
-        "format": "{}",
-        "return-type": "plaintext",
-        "tooltip": false
+    // 電源メニュー (Rofi)
+    "custom/power": {
+        "format": "  ",
+        "tooltip": false,
+        "on-click": "$HOME/.config/waybar/scripts/power_menu_toggle.sh"
     }
 }

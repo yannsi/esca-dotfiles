@@ -1,10 +1,24 @@
+Nightwave_Plaza（ヴェイパーウェイヴ・シティポップ） https://radio.plaza.one/mp3
+Nightride_FM（シンスウェイヴ・レトロウェーブ） https://stream.nightride.fm/nightride.mp3
+DEF_CON_Radio（サイバーパンク・テクノ） https://ice1.somafm.com/defcon-256-mp3
+Mission_Control（NASA宇宙交信音声＋アンビエント） https://ice1.somafm.com/missioncontrol-128-mp3
+SomaFM_Lush（女性ボーカル・ドリームポップ） https://ice1.somafm.com/lush-128-mp3
+SomaFM_Covers（名曲カバー専門） https://ice1.somafm.com/covers-128-mp3
+Indie_Pop_Rocks（インディーロック＆ポップ） https://ice1.somafm.com/indiepop-128-mp3
+Groove_Salad（チルアウト・アンビエント） https://ice1.somafm.com/groovesalad-256-mp3
+Drone_Zone（集中・静寂アンビエント） https://ice1.somafm.com/dronezone-256-mp3
+Secret_Agent（スパイラウンジ音楽） https://ice1.somafm.com/secretagent-128-mp3
+Swiss_Jazz（スイス・高音質ジャズ） http://stream.srg-ssr.ch/m/rsj/mp3_128
+Swiss_Classic（スイス・クラシック） http://stream.srg-ssr.ch/m/rsc_de/mp3_128
+Swiss_Pop（スイス・洋楽ポップス） http://stream.srg-ssr.ch/m/rsp/mp3_128
+LISTEN.moe（アニソン・J-POP） https://listen.moe/stream
 Smooth_Jazz（スムースジャズ） https://smoothjazz.cdnstream1.com/2585_320.mp3
 Smooth_Lounge（ラウンジジャズ） https://smoothjazz.cdnstream1.com/2586_320.mp3
 COLECTION（ラジオ局のコレクション） https://stream.antenne.de/antenne/stream/mp3
 OLDIES（オールディーズ） https://stream.antenne.de/oldie-antenne/stream/mp3
-ROCK（ロック） mpv https://stream.antenne.de/rockantenne-bayern/stream/mp3
+ROCK（ロック） https://stream.antenne.de/rockantenne-bayern/stream/mp3
 70s_Hits（70年代ヒット） https://play.antenne.de/70er-hits.m3u
-80s_Hits（80年代ヒット） mpv https://stream.antenne.de/80er-kulthits/stream/mp3
+80s_Hits（80年代ヒット） https://stream.antenne.de/80er-kulthits/stream/mp3
 90s_Hits（90年代ヒット） https://play.antenne.de/90er-hits.m3u
 Classic_Rock（クラシックロック） https://stream.antenne.de/classic-rock-live/stream/mp3
 Coffee_Music（コーヒータイムミュージック） https://stream.antenne.de/coffee/stream/mp3
@@ -15,10 +29,5 @@ Lovesongs（ラブソング） https://play.antenne.de/lovesongs.m3u
 Party_Hits（パーティーミュージック） https://play.antenne.de/party-hits.m3u
 Top_40（ランキング・トップ40） https://play.antenne.de/top-40.m3u
 AFN（基地放送） https://playerservices.streamtheworld.com/pls/AFNP_OKNAAC.pls
-RBC（RBC_iラジオ） https://radiko.jp/#!/live/RBC
-ROK（ラジオ沖縄） https://radiko.jp/#!/live/ROK
 FM_OKINAWA（FM沖縄"ブラウザが開きます"） https://radiko.jp/#!/live/FM_OKINAWA
-NHK第１ https://radio-stream.nhk.jp/hls/live/2023541/nhkradirulkr1/master.m3u8
-NHK第２ https://radio-stream.nhk.jp/hls/live/2023501/nhkradiruakr2/master.m3u8
-NHK_FM https://radio-stream.nhk.jp/hls/live/2023542/nhkradirulkfm/master.m3u8
 NIKKEI_2 https://radiko.jp/#!/live/RN2

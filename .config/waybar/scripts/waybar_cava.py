@@ -8,10 +8,10 @@ import tempfile
 BARS_NUMBER = 10
 BAR_CHARACTERS = [' ', '▂', '▃', '▄', '▅', '▆', '▇', '█']
 
-# Create a temporary config file for Cava
+# Cava Configuration
 config_content = f"""
 [general]
-framerate = 60
+framerate = 40
 bars = {BARS_NUMBER}
 [input]
 method = pulse
@@ -28,7 +28,6 @@ with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tmp_config:
     config_path = tmp_config.name
 
 try:
-    # Run Cava
     process = subprocess.Popen(
         ['cava', '-p', config_path],
         stdout=subprocess.PIPE,
@@ -39,26 +38,17 @@ try:
 
     for line in process.stdout:
         try:
-            # Parse the raw output (semicolon separated values)
-            values = line.strip().split(';')
-            if not values:
-                continue
-            
-            # Remove empty strings from split
-            values = [v for v in values if v]
-            
+            values = [v for v in line.strip().split(';') if v]
             if len(values) < BARS_NUMBER:
                 continue
 
-            # Convert values to bar characters
             output_string = ""
-            for v in values:
+            for v in values[:BARS_NUMBER]:
                 idx = int(v)
                 if idx >= len(BAR_CHARACTERS):
                     idx = len(BAR_CHARACTERS) - 1
                 output_string += BAR_CHARACTERS[idx]
 
-            # Print to stdout (Waybar reads this)
             print(output_string)
             sys.stdout.flush()
             
@@ -68,7 +58,6 @@ try:
 except KeyboardInterrupt:
     pass
 finally:
-    # Cleanup
     if os.path.exists(config_path):
         os.remove(config_path)
     if 'process' in locals() and process:

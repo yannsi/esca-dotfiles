@@ -1,216 +1,217 @@
 /* =============================================================================
-   Space Theme - Global Reset & Font
+   Catppuccin Mocha - Global Reset & Font
    ============================================================================= */
 * {
     border: none;
     border-radius: 0;
-    font-family: "Hack Nerd Font", "Roboto", "Noto Color Emoji", sans-serif;
-    font-size: 14px;
-    font-weight: 700;
+    font-family: "JetBrains Mono", "Hack Nerd Font", "Roboto", "Noto Color Emoji", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     min-height: 0;
 }
 
-/* =============================================================================
-   Main Bar Window
-   ============================================================================= */
+/* バー自体の背景は透明にしてマージンで浮かせる */
 window#waybar {
-    background: rgba(10, 10, 20, 0.6); /* Deep space dark with transparency */
-    color: #a0a0ff; /* Starry blue-white text */
-    border-bottom: 2px solid rgba(0, 240, 255, 0.2); /* Faint cyan bottom line */
+    background-color: transparent;
 }
 
 /* =============================================================================
-   Tooltips
+   Floating Groups (左・中央・右のモジュールカプセル)
+   ============================================================================= */
+.modules-left,
+.modules-right {
+    background: rgba(30, 30, 46, 0.82); /* Catppuccin Base に適度な半透明 */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* 極薄の境界線 */
+    border-radius: 16px;
+    padding: 2px 10px;
+    margin: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* ソフトな影 */
+}
+
+.modules-center {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 2px 10px;
+    margin: 6px 10px;
+}
+
+/* =============================================================================
+   Tooltips (カレンダー & 詳細情報)
    ============================================================================= */
 tooltip {
-    background: rgba(15, 15, 30, 0.9);
-    border: 1px solid #00f0ff; /* Cyan border */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    background: rgba(24, 24, 37, 0.95); /* Catppuccin Mantle */
+    border: 1px solid rgba(137, 180, 250, 0.4); /* 薄いブルーの枠線 */
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 tooltip label {
-    color: #e0e0ff;
+    color: #cdd6f4; /* Text */
+    font-size: 13px;
+    font-family: "JetBrains Mono", "Hack Nerd Font", monospace;
+    padding: 6px 8px;
 }
 
 /* =============================================================================
-   Workspace Buttons
+   Workspaces (Niri workspaces)
    ============================================================================= */
 #workspaces {
-    background: rgba(0, 0, 0, 0.3);
-    margin: 4px 4px;
-    padding: 0px 5px;
-    border-radius: 20px;
-    border: 1px solid rgba(100, 100, 255, 0.3);
+    background-color: rgba(24, 24, 37, 0.5); /* Mantleの半透明 */
+    border-radius: 12px;
+    margin: 2px 4px;
+    padding: 0 2px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #workspaces button {
-    padding: 0 5px;
-    margin: 4px 2px;
+    padding: 0 8px;
+    margin: 2px 1px;
     background-color: transparent;
-    color: #505080;
-    border-radius: 15px;
-    transition: all 0.3s ease;
+    color: #6c7086; /* Overlay0 */
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
 #workspaces button:hover {
-    color: #00f0ff;
-    text-shadow: 0 0 5px #00f0ff;
+    color: #cdd6f4; /* Text */
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-#workspaces button.focused, #workspaces button.active {
-    background: linear-gradient(135deg, #00c6ff, #0072ff); /* Cyber blue gradient */
-    color: #ffffff;
-    min-width: 20px;
-    box-shadow: 0 0 8px rgba(0, 198, 255, 0.6);
+#workspaces button.focused,
+#workspaces button.active {
+    background: #89b4fa; /* Blue */
+    color: #11111b; /* Crust (ダーク) */
+    font-weight: 700;
 }
 
 #workspaces button.urgent {
-    background: #ff0055;
-    color: #ffffff;
-    box-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
+    background-color: #f38ba8; /* Red */
+    color: #11111b;
 }
 
 /* =============================================================================
-   Modules Common Style - Sci-Fi Pills
+   Modules Common Styling (透明化と遷移エフェクト)
    ============================================================================= */
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor,
-#mpd,
 #custom-menu,
-#custom-power,
 #custom-folder,
 #custom-firefox,
+#custom-chrome,
 #custom-radio,
-#custom-backlight,
+#custom-media,
+#window,
 #custom-cava,
+#wireplumber,
+#custom-backlight,
+#tray,
 #custom-weather,
-#mpris {
+#clock,
+#custom-power {
     padding: 0 8px;
-    margin: 4px 3px;
-    color: #d0d0ff;
-    background-color: rgba(30, 30, 45, 0.6);
-    border-radius: 16px;
-    border: 1px solid rgba(80, 80, 120, 0.4);
-    transition: all 0.3s ease;
+    margin: 2px 0;
+    color: #cdd6f4; /* デフォルトのテキスト色 */
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Hover Effect with Glow */
+/* ホバー可能なアイテムのソフトな効果 */
 #custom-menu:hover,
 #custom-folder:hover,
 #custom-firefox:hover,
+#custom-chrome:hover,
 #custom-radio:hover,
 #custom-backlight:hover,
 #custom-power:hover,
 #wireplumber:hover,
 #clock:hover,
 #custom-weather:hover,
-#tray:hover,
-#custom-cava:hover,
-#mpris:hover {
-    background-color: rgba(60, 60, 90, 0.8);
-    border-color: #00f0ff;
-    box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
-    color: #ffffff;
+#tray:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
 }
 
 /* =============================================================================
-   Specific Module Styling
+   Specific Module Styling (Catppuccin Color Palette)
    ============================================================================= */
 
-/* --- Left Modules (Menu, Apps) --- */
+/* --- Left Modules --- */
 #custom-menu {
-    background: rgba(45, 10, 80, 0.4); /* 深宇宙の紫（透過） */
-    color: #00f0ff;
-    border: 1px solid rgba(0, 240, 255, 0.5);
-    box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2), 0 0 10px rgba(0, 240, 255, 0.1);
+    color: #cba6f7; /* Mauve */
+    font-size: 14px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-left: 6px;
-    font-weight: bold;
 }
 
-#custom-folder { color: #fbedaa; border-color: rgba(251, 237, 170, 0.3); }
-#custom-firefox { color: #ff9a9e; border-color: rgba(255, 154, 158, 0.3); } /* Nebula pink */
-#custom-radio { color: #a18cd1; border-color: rgba(161, 140, 209, 0.3); } /* Soft Purple */
+#custom-folder { 
+    color: #fab387; /* Peach */
+}
 
-/* --- Center Modules (Media, Cava) --- */
+#custom-firefox { 
+    color: #eba0ac; /* Maroon */
+}
+
+#custom-chrome {
+    color: #89dceb; /* Sky */
+}
+
+#custom-radio { 
+    color: #94e2d5; /* Teal */
+}
+
 #custom-media {
-    background-color: rgba(20, 20, 30, 0.8);
-    border-color: #505080;
+    color: #a6e3a1; /* Green */
 }
+
+/* --- Center Modules --- */
+#window {
+    color: #bac2de; /* Subtext1 */
+    font-weight: 500;
+}
+
 #custom-cava {
-    background-color: transparent;
-    border: none;
-    color: #00f0ff; /* Cyan bars */
-    font-family: "Hack Nerd Font", sans-serif;
-    text-shadow: 0 0 2px #00f0ff;
+    color: #bac2de;
 }
 
-/* --- Right Modules (System Stats) --- */
+/* --- Right Modules --- */
+#wireplumber {
+    color: #89b4fa; /* Blue */
+}
 
-/* Clock */
+#custom-backlight {
+    color: #f9e2af; /* Yellow */
+}
+
+#custom-weather {
+    color: #74c7ec; /* Sapphire */
+}
+
+/* すっきりした時計表示 */
 #clock {
-    background-color: rgba(30, 30, 50, 0.8);
-    color: #00f0ff;
-    font-weight: bold;
-    margin-right: 6px;
-    border-color: #00f0ff;
-}
-
-/* Power Button */
-#custom-power {
-    background: rgba(80, 10, 20, 0.4); /* 燃え尽きそうな星の赤（透過） */
-    color: #ff4b2b;
-    border: 1px solid rgba(255, 75, 43, 0.5);
-    box-shadow: inset 0 0 10px rgba(255, 75, 43, 0.2), 0 0 10px rgba(255, 75, 43, 0.1);
-    padding-right: 10px;
-    padding-left: 10px;
-    font-weight: bold;
-}
-
-/* Battery */
-#battery.charging, #battery.plugged {
-    color: #00f0ff;
-    border-color: #00f0ff;
-}
-#battery.critical:not(.charging) {
-    background-color: #ff0055;
-    color: #ffffff;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-/* Network */
-#network.disconnected {
-    background-color: #ff0055;
-    color: #ffffff;
-}
-
-/* Tray */
-#tray {
-    background-color: rgba(30, 30, 45, 0.6);
+    color: #11111b; /* Crust (ダーク) */
+    background-color: #f5c2e7; /* Pink */
+    font-weight: 700;
+    border-radius: 8px;
+    margin: 2px 4px;
     padding: 0 10px;
 }
 
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
+/* 電源ボタン */
+#custom-power {
+    color: #f38ba8; /* Red */
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 2px;
+}
+
+#custom-power:hover {
+    background-color: rgba(243, 139, 168, 0.15);
+    border-radius: 8px;
+}
+
+#tray {
+    padding: 0 6px;
+    margin: 0 4px;
 }
