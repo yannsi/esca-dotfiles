@@ -175,10 +175,63 @@
         "on-click-right": "$HOME/.config/waybar/scripts/calendar_popup.py --year"
     },
 
-    // 電源メニュー (Fuzzel)
+    // =========================================================================
+    // Modules: Power Drawer Group
+    // =========================================================================
+
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power",
+            "custom/quit",
+            "custom/lock",
+            "custom/suspend",
+            "custom/reboot"
+        ]
+    },
+
+    // 電源メニュー（シャットダウン・再起動・ログアウト等）
     "custom/power": {
         "format": "  ",
-        "tooltip": false,
-        "on-click": "$HOME/.config/waybar/scripts/power_menu_toggle.sh"
+        "tooltip": true,
+        "tooltip-format": "電源メニュー（クリックで表示）",
+        "on-click": "$HOME/.config/waybar/scripts/power_menu_popup.py"
+    },
+
+    // 再起動
+    "custom/reboot": {
+        "format": "  ",
+        "tooltip": true,
+        "tooltip-format": "再起動",
+        "on-click": "$HOME/.config/waybar/scripts/confirm_power.sh reboot"
+    },
+
+    // サスペンド（スリープ）
+    "custom/suspend": {
+        "format": "  ",
+        "tooltip": true,
+        "tooltip-format": "サスペンド",
+        "on-click": "systemctl suspend"
+    },
+
+    // 画面ロック
+    "custom/lock": {
+        "format": "  ",
+        "tooltip": true,
+        "tooltip-format": "画面ロック",
+        "on-click": "swaylock"
+    },
+
+    // ログアウト (Niri)
+    "custom/quit": {
+        "format": " 󰗼 ",
+        "tooltip": true,
+        "tooltip-format": "ログアウト (Niri終了)",
+        "on-click": "niri msg action quit -s"
     }
 }

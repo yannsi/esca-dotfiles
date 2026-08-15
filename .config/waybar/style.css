@@ -111,7 +111,11 @@ tooltip * {
 #tray,
 #custom-weather,
 #clock,
-#custom-power {
+#custom-power,
+#custom-quit,
+#custom-lock,
+#custom-suspend,
+#custom-reboot {
     padding: 0 8px;
     margin: 2px 0;
     color: #cdd6f4; /* デフォルトのテキスト色 */
@@ -133,6 +137,10 @@ tooltip * {
 #backlight:hover,
 #custom-backlight:hover,
 #custom-power:hover,
+#custom-quit:hover,
+#custom-lock:hover,
+#custom-suspend:hover,
+#custom-reboot:hover,
 #wireplumber:hover,
 #clock:hover,
 #custom-weather:hover,
@@ -224,17 +232,60 @@ tooltip * {
     padding: 0 10px;
 }
 
-/* 電源ボタン */
+/* 電源ボタングループ & ドロワー */
+#group-power {
+    margin-right: 4px;
+}
+
 #custom-power {
     color: #f38ba8; /* Red */
     font-size: 14px;
-    padding-left: 10px;
-    padding-right: 14px;
-    margin-right: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#custom-reboot {
+    color: #fab387; /* Peach */
+    font-size: 13px;
+    padding: 0 6px;
+}
+
+#custom-suspend {
+    color: #89dceb; /* Sky */
+    font-size: 13px;
+    padding: 0 6px;
+}
+
+#custom-lock {
+    color: #f9e2af; /* Yellow */
+    font-size: 13px;
+    padding: 0 6px;
+}
+
+#custom-quit {
+    color: #cba6f7; /* Mauve */
+    font-size: 13px;
+    padding: 0 6px;
 }
 
 #custom-power:hover {
-    background-color: rgba(243, 139, 168, 0.15);
+    background-color: rgba(243, 139, 168, 0.2);
+    border-radius: 8px;
+}
+#custom-reboot:hover {
+    background-color: rgba(250, 179, 135, 0.2);
+    border-radius: 8px;
+}
+#custom-suspend:hover {
+    background-color: rgba(137, 220, 235, 0.2);
+    border-radius: 8px;
+}
+#custom-lock:hover {
+    background-color: rgba(249, 226, 175, 0.2);
+    border-radius: 8px;
+}
+#custom-quit:hover {
+    background-color: rgba(203, 166, 247, 0.2);
     border-radius: 8px;
 }
 
