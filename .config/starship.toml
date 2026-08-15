@@ -13,7 +13,20 @@ style = "bold white"
 format = "[$symbol]($style) "
 
 [os.symbols]
+# 【重要】Linux / Unknown にも Arch のアイコンを割り当てること。
+# starship は /etc/os-release の ID を見て OS を判別するが、Esca は
+# ID=esca を名乗るため starship の既知一覧に無く、汎用の Linux 扱いになる。
+# その結果 Arch = の行は使われず、既定のペンギンが表示される。
+# ID を arch に戻すとブランディングが消えるので、こちら側で対応する。
 Arch = " "
+# Esca 専用グリフ（U+100000 = アンコウの誘引突起）。
+# Esca は /etc/os-release で ID=esca を名乗るため starship の既知一覧に無く、
+# 汎用の Linux 扱いになる。そこを自前のグリフで置き換える。
+# 表示には EscaSymbols.otf が必要（install.sh が /usr/share/fonts/esca に配置）。
+# フォントが無い環境では豆腐(□)になるので、その場合は下2行を
+# " " に戻せば Arch のアイコンで代用できる。
+Linux = "􀀀 "
+Unknown = "􀀀 "
 Ubuntu = " "
 Debian = " "
 Fedora = " "
