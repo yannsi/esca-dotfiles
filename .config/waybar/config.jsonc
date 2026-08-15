@@ -111,10 +111,11 @@
 
     // CAVA オーディオビジュアライザー
     "custom/cava": {
-        "exec": "/home/sk/.config/waybar/scripts/waybar_cava.py",
+        "exec": "$HOME/.config/waybar/scripts/waybar_cava.py",
         "format": "{}",
-        "return-type": "plaintext",
-        "tooltip": false
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "pkill -SIGUSR1 -f waybar_cava.py"
     },
 
     // =========================================================================
