@@ -29,22 +29,27 @@ SELECTED=$(echo "$WALLPAPERS" | fuzzel --dmenu --prompt="🖼 壁紙を選択 �
 
 # ── 壁紙デーモンごとの適用 ──
 apply_hyprpaper() {
-    # 【重要】hyprpaper は preload してからでないと wallpaper を設定できない。
-    # いきなり wallpaper を投げると「読み込まれていない」と拒否される。
-    # また unload all を先に入れないと、切り替えるたびに画像がメモリに溜まる。
-    hyprctl hyprpaper unload all      >/dev/null 2>&1
-    hyprctl hyprpaper preload "$SELECTED"  >/dev/null 2>&1
-    hyprctl hyprpaper wallpaper ",$SELECTED" >/dev/null 2>&1 || return 1
+    # 【重要】preload は現在の hyprpaper では廃止されている。
+    # 旧来の「preload してから wallpaper」という手順は不要で、
+    # wallpaper リクエストに "<出力>,<パス>,<fit_mode>" を渡すだけでよい。
+    # 出力名を空にすると全ディスプレイが対象になる。fit_mode は省略可。
+    # 自分の版が受け付けるリクエストは hyprctl hyprpaper --help で確認できる。
+    hyprctl hyprpaper wallpaper ",$SELECTED,cover" >/dev/null 2>&1 || return 1
 
     # 次回ログイン時にも復元されるよう設定ファイルを更新する。
     # 【重要】hyprpaper.conf を書き換えるだけでは即時反映されない。
     # 上の hyprctl と両方が必要。
+    # 【重要】書式はブロック形式。preload = / wallpaper = ,path の旧書式で
+    # 書くと解釈されず、次回ログイン時に背景が真っ黒になる。
     mkdir -p "$HOME/.config/hypr"
     cat > "$HOME/.config/hypr/hyprpaper.conf" << EOF
-preload = ${SELECTED}
-wallpaper = ,${SELECTED}
+wallpaper {
+    monitor =
+    path = ${SELECTED}
+    fit_mode = cover
+}
 
-ipc = on
+ipc = true
 splash = false
 EOF
     return 0
