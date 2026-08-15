@@ -1,0 +1,85 @@
+/* =============================================================================
+   wlogout - Catppuccin Theme Styling
+   ============================================================================= */
+
+* {
+    background-image: none;
+    box-shadow: none;
+    font-family: "JetBrains Mono", "Hack Nerd Font", sans-serif;
+}
+
+window {
+    background-color: rgba(24, 24, 37, 0.85); /* 半透明オーバーレイ */
+}
+
+button {
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    color: #cad3f5;
+    background-color: rgba(36, 39, 58, 0.9);
+    background-repeat: no-repeat;
+    background-position: center 35%;
+    background-size: 28%;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 15px;
+    padding-top: 100px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:focus,
+button:active,
+button:hover {
+    color: #ffffff;
+    border-color: #b7bdf8;
+    background-color: rgba(54, 58, 79, 0.95);
+    outline: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* =============================================================================
+   個別ボタンのアイコン設定 & ホバーカラー
+   ============================================================================= */
+
+#lock {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/lock.svg"));
+}
+#lock:hover {
+    border-color: #8aadf4; /* Sapphire / Blue */
+}
+
+#hibernate {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/hibernate.svg"));
+}
+#hibernate:hover {
+    border-color: #a6da95; /* Green */
+}
+
+#logout {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/logout.svg"));
+}
+#logout:hover {
+    border-color: #c6a0f6; /* Mauve */
+}
+
+#shutdown {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/shutdown.svg"));
+}
+#shutdown:hover {
+    border-color: #ed8796; /* Red */
+}
+
+#suspend {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/suspend.svg"));
+}
+#suspend:hover {
+    border-color: #eed49f; /* Yellow */
+}
+
+#reboot {
+    background-image: image(url("/home/sk/.local/share/wlogout/assets/reboot.svg"));
+}
+#reboot:hover {
+    border-color: #f5a97f; /* Peach / Orange */
+}

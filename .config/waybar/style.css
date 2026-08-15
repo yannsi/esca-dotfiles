@@ -102,6 +102,7 @@ tooltip label {
 #window,
 #custom-cava,
 #wireplumber,
+#backlight,
 #custom-backlight,
 #tray,
 #custom-weather,
@@ -122,6 +123,7 @@ tooltip label {
 #custom-firefox:hover,
 #custom-chrome:hover,
 #custom-radio:hover,
+#backlight:hover,
 #custom-backlight:hover,
 #custom-power:hover,
 #wireplumber:hover,
@@ -179,6 +181,7 @@ tooltip label {
     color: #89b4fa; /* Blue */
 }
 
+#backlight,
 #custom-backlight {
     color: #f9e2af; /* Yellow */
 }
@@ -202,8 +205,8 @@ tooltip label {
     color: #f38ba8; /* Red */
     font-size: 14px;
     padding-left: 10px;
-    padding-right: 10px;
-    margin-right: 2px;
+    padding-right: 14px;
+    margin-right: 6px;
 }
 
 #custom-power:hover {

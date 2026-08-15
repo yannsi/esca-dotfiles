@@ -18,7 +18,7 @@
     ],
     "modules-right": [
         "wireplumber",
-        "custom/backlight",
+        "backlight",
         "tray",
         "custom/weather",
         "clock",
@@ -127,19 +127,24 @@
         "return-type": "json",
         "format-muted": " 󰝟 ",
         "format-icons": ["󰕿", "󰖀", "󰕾"],
+        "on-click": "$HOME/.config/waybar/scripts/volume_toggle.sh",
         "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && sleep 1",
         "on-click-right": "alacritty -e alsamixer",
         "max-volume": 150,
         "scroll-step": 0.7,
         "tooltip": true,
-        "tooltip-format": "音量（マウスホイールで調節・右クリックで alsamixer が開きます）"
+        "tooltip-format": "音量（左クリック: スライダーバー表示 | ホイール: 調節 | 右クリック: alsamixer | 中クリック: ミュート）"
     },
 
     // バックライト輝度調整
-    "custom/backlight": {
-        "format": "  ",
+    "backlight": {
+        "device": "intel_backlight",
+        "format": " {icon}{percent}% ",
+        "format-icons": ["󰃞 ", "󰃟 ", "󰃠 "],
         "tooltip": true,
-        "tooltip-format": "バックライト(左クリック：明るくなる | 右クリック：暗くなる)",
+        "tooltip-format": "明るさ: {percent}%\n（ホイールで調節・左クリック: +4% / 右クリック: -4%）",
+        "on-scroll-up": "brightnessctl s +4%",
+        "on-scroll-down": "brightnessctl s 4%-",
         "on-click": "brightnessctl s +4%",
         "on-click-right": "brightnessctl s 4%-"
     },
@@ -185,7 +190,7 @@
         }
     },
 
-    // 電源メニュー (Rofi)
+    // 電源メニュー (Fuzzel)
     "custom/power": {
         "format": "  ",
         "tooltip": false,
