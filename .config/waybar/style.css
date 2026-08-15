@@ -19,6 +19,7 @@ window#waybar {
    Floating Groups (左・中央・右のモジュールカプセル)
    ============================================================================= */
 .modules-left,
+.modules-center,
 .modules-right {
     background: rgba(30, 30, 46, 0.82); /* Catppuccin Base に適度な半透明 */
     border: 1px solid rgba(255, 255, 255, 0.08); /* 極薄の境界線 */
@@ -26,14 +27,6 @@ window#waybar {
     padding: 2px 10px;
     margin: 6px 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* ソフトな影 */
-}
-
-.modules-center {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 2px 10px;
-    margin: 6px 10px;
 }
 
 /* =============================================================================
@@ -175,6 +168,10 @@ tooltip label {
 
 #custom-cava {
     color: #bac2de;
+    font-family: "JetBrains Mono", "Hack Nerd Font", monospace;
+    font-size: 13px;
+    padding: 0 6px;
+    margin: 2px 2px;
 }
 
 /* --- Right Modules --- */

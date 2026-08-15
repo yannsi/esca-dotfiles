@@ -9,3 +9,4 @@ archive/
 *~
 *.swp
 .DS_Store
+.config/waybar/scripts/cava_color.txt
