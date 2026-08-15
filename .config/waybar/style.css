@@ -39,14 +39,17 @@ window#waybar {
 /* =============================================================================
    Tooltips (カレンダー & 詳細情報)
    ============================================================================= */
-tooltip {
-    background: rgba(24, 24, 37, 0.95); /* Catppuccin Mantle */
+tooltip,
+tooltip.background {
+    background-color: #181825;
+    background: rgba(24, 24, 37, 0.96); /* Catppuccin Mantle */
     border: 1px solid rgba(137, 180, 250, 0.4); /* 薄いブルーの枠線 */
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-tooltip label {
+tooltip label,
+tooltip * {
     color: #cdd6f4; /* Text */
     font-size: 13px;
     font-family: "JetBrains Mono", "Hack Nerd Font", monospace;
@@ -98,6 +101,7 @@ tooltip label {
 #custom-firefox,
 #custom-chrome,
 #custom-radio,
+#mpris,
 #custom-media,
 #window,
 #custom-cava,
@@ -123,6 +127,8 @@ tooltip label {
 #custom-firefox:hover,
 #custom-chrome:hover,
 #custom-radio:hover,
+#mpris:hover,
+#custom-media:hover,
 #custom-cava:hover,
 #backlight:hover,
 #custom-backlight:hover,
@@ -163,7 +169,8 @@ tooltip label {
     color: #94e2d5; /* Teal */
 }
 
-#custom-media {
+#mpris,
+#custom-media { 
     color: #a6e3a1; /* Green */
 }
 

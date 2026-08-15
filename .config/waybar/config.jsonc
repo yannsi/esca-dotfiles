@@ -1,5 +1,7 @@
 // -*- mode: jsonc -*-
 {
+    "layer": "top",
+    "position": "top",
     "spacing": 4, // モジュール間のギャップ (4px)
 
     // モジュールの配置順序
@@ -10,7 +12,7 @@
         "custom/firefox",
         "custom/chrome",
         "custom/radio",
-        "custom/media"
+        "mpris"
     ],
     "modules-center": [
         "niri/window",
@@ -83,20 +85,19 @@
         "on-click-middle": "bash $HOME/.config/waybar/scripts/radiostation.sh"
     },
 
-    // メディア再生情報 (MPRIS / Playerctl)
-    "custom/media": {
-        "format": " {icon}{text} ",
-        "return-type": "json",
-        "format-icons": {
-            "Playing": " ",
-            "Paused": " ",
-            "stop": " "
+    // メディア再生情報 (MPRIS)
+    "mpris": {
+        "format": " {player_icon} {title} - {artist} ",
+        "format-paused": " {status_icon} <i>{title} - {artist}</i> ",
+        "player-icons": {
+            "default": " "
+        },
+        "status-icons": {
+            "paused": " "
         },
         "max-length": 30,
-        "exec": "playerctl -a metadata --format '{\"text\": \"{{playerName}}: {{artist}}  {{markup_escape(title)}}\", \"tooltip\": \"{{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-        "on-click": "playerctl play-pause",
-        "on-click-middle": "alacritty -e cava",
-        "on-click-right": "playerctl stop"
+        "tooltip": true,
+        "tooltip-format": "{player}: {title} - {artist}"
     },
 
     // =========================================================================
@@ -114,7 +115,7 @@
         "exec": "$HOME/.config/waybar/scripts/waybar_cava.py",
         "format": "{}",
         "return-type": "json",
-        "tooltip": true,
+        "tooltip": false,
         "on-click": "pkill -SIGUSR1 -f waybar_cava.py"
     },
 
@@ -125,7 +126,6 @@
     // 音量 (WirePlumber)
     "wireplumber": {
         "format": " {icon}{volume}% ",
-        "return-type": "json",
         "format-muted": " 󰝟 ",
         "format-icons": ["󰕿", "󰖀", "󰕾"],
         "on-click": "$HOME/.config/waybar/scripts/volume_toggle.sh",
@@ -134,7 +134,7 @@
         "max-volume": 150,
         "scroll-step": 0.7,
         "tooltip": true,
-        "tooltip-format": "音量（左クリック: スライダーバー表示 | ホイール: 調節 | 右クリック: alsamixer | 中クリック: ミュート）"
+        "tooltip-format": "音量: {volume}%\n（左クリック: スライダーバー表示 | ホイール: 調節 | 右クリック: alsamixer | 中クリック: ミュート）"
     },
 
     // バックライト輝度調整
@@ -165,29 +165,14 @@
         "on-click-right": "$HOME/.config/waybar/scripts/set_weather_location.sh"
     },
 
-    // 時計 & カレンダー（Waybar内蔵モジュール・ホバーで月間カレンダー表示）
+    // 時計 & カレンダー（左クリック: 月間カレンダー、右クリック: 年間カレンダー）
     "clock": {
         "format": " {:%H:%M}",
         "format-alt": " {:%Y-%m-%d}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "calendar": {
-            "mode": "month",
-            "mode-mon-col": 3,
-            "weeks-pos": "right",
-            "on-scroll": 1,
-            "format": {
-                "months": "<span color='#cba6f7'><b>{}</b></span>",
-                "days": "<span color='#cdd6f4'><b>{}</b></span>",
-                "weeks": "<span color='#a6e3a1'><b>W{}</b></span>",
-                "weekdays": "<span color='#fab387'><b>{}</b></span>",
-                "today": "<span color='#f38ba8'><b><u>{}</u></b></span>"
-            }
-        },
-        "actions": {
-            "on-click-right": "mode",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
-        }
+        "tooltip": true,
+        "tooltip-format": "{:%Y年%m月%d日 (%a)}\n（左クリック: 月間カレンダー | 右クリック: 年間カレンダー）",
+        "on-click": "$HOME/.config/waybar/scripts/calendar_popup.py",
+        "on-click-right": "$HOME/.config/waybar/scripts/calendar_popup.py --year"
     },
 
     // 電源メニュー (Fuzzel)

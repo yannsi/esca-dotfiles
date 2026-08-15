@@ -69,10 +69,13 @@ def handle_sigusr1(signum, frame):
 signal.signal(signal.SIGUSR1, handle_sigusr1)
 
 
-def emit(text, tooltip):
+def emit(text, tooltip=None):
     """waybar へ1行 JSON を出す。ここが止まるとモジュールが消える。"""
     try:
-        print(json.dumps({"text": text, "tooltip": tooltip}), flush=True)
+        data = {"text": text}
+        if tooltip:
+            data["tooltip"] = tooltip
+        print(json.dumps(data), flush=True)
     except BrokenPipeError:
         # waybar が終了した。これ以上書いても意味がないので静かに抜ける。
         sys.exit(0)
@@ -145,7 +148,7 @@ def run_cava(config_path):
             except ValueError:
                 continue
             text, name = colorize(chars)
-            emit(text, "CAVA: {}（クリックで色変更）".format(name))
+            emit(text)
     except Exception:
         # 読み取り中の想定外エラーでも落ちない
         pass
