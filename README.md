@@ -11,6 +11,8 @@ Esca Linux（Arch Linux ベース）の Niri / Hyprland デスクトップ環境
 - **Terminal**: Alacritty
 - **Launcher**: Fuzzel
 - **Screen Locker**: Swaylock（niri）/ Hyprlock（Hyprland）※ロック・ログアウトは実行中の WM を判定して切り替え
+- **自動ロック**: 30分操作がなければロック、60分でサスペンド（niri: swayidle / Hyprland: hypridle）
+- **壁紙**: swaybg（niri）/ hyprpaper（Hyprland）
 - **Shell Prompt**: Starship
 
 ### ルートにあるファイル
@@ -36,6 +38,7 @@ Esca Linux（Arch Linux ベース）の Niri / Hyprland デスクトップ環境
 - **メディア情報**: 再生中の楽曲・動画タイトルの表示と操作（クリックで再生/一時停止、右クリックで停止、中クリックでCAVA）
 - **音量 / 輝度**: マウスホイールで直感的に音量・明るさを調整
 - **天気予報**: 現在の気温・天気を表示（右クリックで地域変更ダイアログ）
+- **壁紙の変更**: `scripts/wallchange.sh` で選んだ壁紙は `~/.local/state/esca/wallpaper` に保存され、次回ログイン時に `wallpaper_restore.sh` が復元します（リポジトリ内の設定ファイルは書き換えません）
 - **時計 / カレンダー**:
   - **ホバー**: 月間カレンダーをポップアップ表示（ホイールスクロールで前月/翌月送り）
   - **左クリック**: 時間表示と日付表示の切り替え
@@ -87,10 +90,10 @@ sudo pacman -S waybar alacritty fuzzel starship nautilus \
                fcitx5-im fcitx5-mozc
 
 # Niri を使う場合
-sudo pacman -S niri swaylock swaybg mako xwayland-satellite polkit-kde-agent
+sudo pacman -S niri swaylock swayidle swaybg mako xwayland-satellite polkit-kde-agent
 
 # Hyprland を使う場合
-sudo pacman -S hyprland hyprpaper hyprlock polkit-gnome network-manager-applet \
+sudo pacman -S hyprland hyprpaper hyprlock hypridle polkit-gnome network-manager-applet \
                grim slurp wl-clipboard xdg-user-dirs
 ```
 

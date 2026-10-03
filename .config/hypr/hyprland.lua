@@ -230,6 +230,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     -- 壁紙。設定は ~/.config/hypr/hyprpaper.conf を参照する。
     hl.exec_cmd("hyprpaper")
+    -- wallchange.sh で選んだ壁紙があれば、hyprpaper の起動を待って差し替える。
+    -- 選んだ壁紙を hyprpaper.conf に書き込まないための仕組み（理由はスクリプト参照）。
+    hl.exec_cmd("bash $HOME/.config/waybar/scripts/wallpaper_restore.sh")
+    -- 自動ロック（設定は ~/.config/hypr/hypridle.conf）
+    hl.exec_cmd("command -v hypridle >/dev/null && hypridle")
     -- 日本語入力（niri 側の config.kdl と揃える）。
     -- 未インストール環境（ibus を選んだ場合など）では何もしない。
     -- ここに fcitx5 と書いてあれば、インストーラは重複して追記しない。
