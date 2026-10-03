@@ -1,7 +1,8 @@
 # esca-dotfiles
 
-Arch Linux + Niri / Hyprland デスクトップ環境の設定ファイル集です。
-統一感のあるパステルテーマ（Catppuccin Mocha / Macchiato）および Esca テーマで構成されています。
+Esca Linux（Arch Linux ベース）の Niri / Hyprland デスクトップ環境の設定ファイル集です。
+[esca_linux_installer](https://github.com/yannsi/esca_linux_installer) の「GitHub から取得する」を選ぶと、このリポジトリの内容がインストール時に適用されます。
+配色は Esca テーマ（アンコウの発光をイメージしたフィラメントブルー）が基本で、Swaylock などの一部は Catppuccin Macchiato ベースです。
 
 ## 収録されている設定
 
@@ -9,8 +10,18 @@ Arch Linux + Niri / Hyprland デスクトップ環境の設定ファイル集で
 - **Status Bar**: Waybar（Fuzzelラジオ、Chrome/Firefoxランチャー、カレンダー、天気予報、CAVAビジュアライザー内蔵）
 - **Terminal**: Alacritty
 - **Launcher**: Fuzzel
-- **Screen Locker / Logout**: Swaylock, wlogout
+- **Screen Locker**: Swaylock（niri）/ Hyprlock（Hyprland）※ロック・ログアウトは実行中の WM を判定して切り替え
 - **Shell Prompt**: Starship
+
+### ルートにあるファイル
+
+| ファイル | 内容 |
+|---|---|
+| `esca` | Esca の既定壁紙（PNG）。インストーラがこのファイル名で直接取得するため、**名前を変えないこと** |
+| `coffee` / `aisumicha` | テーマ別の壁紙（JPEG） |
+| `sddm-coffee` / `sddm-aisumicha` | テーマ別の SDDM ログイン画面の背景（JPEG） |
+| `kakishibu` / `sddm-kakishibu` | 柿渋テーマ用の置き場所（画像は未作成） |
+| `EscaSymbols.otf` | Esca ロゴのグリフ（U+100000）を収めたフォント |
 
 ---
 
@@ -55,6 +66,8 @@ git clone git@github.com:yannsi/esca-dotfiles.git ~/dotfiles
 ### 3. 設定の適用（自動スクリプト）
 
 付属のセットアップスクリプトを実行すると、自動的にシンボリックリンクが作成されます。
+`~/dotfiles` 以外の場所に clone した場合も、スクリプトの置き場所を基準にリンクします。
+既存の設定は `<名前>.bak.<日時>` に退避されます。
 
 ```bash
 ~/dotfiles/setup.sh
@@ -63,15 +76,22 @@ git clone git@github.com:yannsi/esca-dotfiles.git ~/dotfiles
 ### 4. 必要パッケージのインストール
 
 設定を正しく動作させるために、必要なアプリケーションとフォントをインストールします。
+すべて公式リポジトリにあるため、AUR ヘルパーは不要です。
 
 ```bash
-# 必須・基本パッケージ
-sudo pacman -S niri waybar alacritty fuzzel swaylock starship \
-               mpv cava playerctl brightnessctl wireplumber python
+# 共通（Waybar とそのスクリプト、端末、ランチャー、フォント）
+sudo pacman -S waybar alacritty fuzzel starship nautilus \
+               mpv streamlink cava playerctl brightnessctl wireplumber alsa-utils \
+               python python-gobject gtk3 gtk-layer-shell libnotify \
+               ttf-hack-nerd ttf-jetbrains-mono noto-fonts-emoji \
+               fcitx5-im fcitx5-mozc
 
-# フォント（アイコン表示に必須）
-# AURヘルパー（yayなど）を使用している場合:
-yay -S ttf-hack-nerd ttf-jetbrains-mono noto-fonts-emoji
+# Niri を使う場合
+sudo pacman -S niri swaylock swaybg mako xwayland-satellite polkit-kde-agent
+
+# Hyprland を使う場合
+sudo pacman -S hyprland hyprpaper hyprlock polkit-gnome network-manager-applet \
+               grim slurp wl-clipboard xdg-user-dirs
 ```
 
 インストール後、一度ログアウトして再ログインするか、再起動してください。

@@ -4,6 +4,7 @@ Waybar Power Menu Popup using GTK3 and gtk-layer-shell
 """
 import sys
 import os
+import shutil
 import subprocess
 import signal
 
@@ -199,13 +200,19 @@ def detect_wm():
     return "unknown"
 
 def lock_screen():
+    # 【重要】subprocess.call(["command", "-v", X], shell=True) で存在確認しないこと。
+    # shell=True にリストを渡すと先頭要素だけがコマンドになり、"-v" と X は
+    # sh の $0/$1 に回る。結果「command」単体が実行されて常に 0 が返り、
+    # 存在しないロックコマンドを起動して無反応になる。shutil.which で調べる。
     wm = detect_wm()
-    if wm == "hyprland" and subprocess.call(["command", "-v", "hyprlock"], shell=True, stdout=subprocess.DEVNULL) == 0:
+    if wm == "hyprland" and shutil.which("hyprlock"):
         subprocess.Popen(["hyprlock"])
-    elif subprocess.call(["command", "-v", "swaylock"], shell=True, stdout=subprocess.DEVNULL) == 0:
+    elif shutil.which("swaylock"):
         subprocess.Popen(["swaylock", "-f"])
+    elif shutil.which("hyprlock"):
+        subprocess.Popen(["hyprlock"])
     else:
-        subprocess.Popen(["swaylock"])
+        subprocess.Popen(["notify-send", "電源メニュー", "画面ロックのコマンドが見つかりません"])
 
 def logout_session():
     wm = detect_wm()
