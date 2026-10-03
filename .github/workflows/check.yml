@@ -1,0 +1,70 @@
+# push のたびにスクリプトと設定ファイルを自動で確認する。
+# 結果は GitHub の「Actions」タブで見られる（失敗するとメールでも通知される）。
+name: チェック
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: 構文・shellcheck・設定ファイル
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # インストーラと同じ版の shellcheck を使う（版が違うと指摘内容が変わるため）
+      - run: pip install shellcheck-py==0.11.0.1 lupa
+      - name: シェルスクリプトの構文チェック
+        run: |
+          for f in setup.sh .config/waybar/scripts/*.sh .config/hypr/scripts/*.sh; do
+            echo "bash -n $f"
+            bash -n "$f"
+          done
+      - name: shellcheck（警告レベル）
+        run: shellcheck -S warning setup.sh .config/waybar/scripts/*.sh .config/hypr/scripts/*.sh
+      - name: Python の構文チェック
+        run: python -m py_compile .config/waybar/scripts/*.py
+      - name: hyprland.lua の構文チェック
+        run: |
+          python - <<'PY'
+          import lupa
+          check = lupa.LuaRuntime().eval(
+              'function(s) local f, e = load(s); if f then return "OK" else return e end end')
+          result = check(open(".config/hypr/hyprland.lua", encoding="utf-8").read())
+          print(result)
+          raise SystemExit(0 if result == "OK" else 1)
+          PY
+      - name: Waybar の config.jsonc の構文チェック
+        run: |
+          python - <<'PY'
+          import json, re
+          s = open(".config/waybar/config.jsonc", encoding="utf-8").read()
+          # 文字列の外にある // コメントと、末尾のカンマを取り除いてから JSON として読む
+          out, i, in_str = [], 0, False
+          while i < len(s):
+              c = s[i]
+              if in_str:
+                  out.append(c)
+                  if c == "\\":
+                      out.append(s[i + 1]); i += 2; continue
+                  if c == '"':
+                      in_str = False
+              elif c == '"':
+                  in_str = True; out.append(c)
+              elif s.startswith("//", i):
+                  while i < len(s) and s[i] != "\n":
+                      i += 1
+                  continue
+              else:
+                  out.append(c)
+              i += 1
+          json.loads(re.sub(r",(\s*[}\]])", r"\1", "".join(out)))
+          print("OK")
+          PY

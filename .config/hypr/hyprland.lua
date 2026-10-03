@@ -29,9 +29,11 @@ hl.monitor({
 --------------------
 ---- よく使うもの ----
 --------------------
-local terminal    = "kitty"
+-- README の構成（Alacritty / Fuzzel）に合わせる。インストーラの Hyprland 構成でも
+-- alacritty と fuzzel は入るので、どちらの導入方法でもそのまま動く。
+local terminal    = "alacritty"
 local fileManager = "nautilus"
-local menu        = "wofi --show drun"
+local menu        = "fuzzel"
 local mainMod     = "SUPER"
 
 --------------------
@@ -180,7 +182,11 @@ hl.window_rule({
 --------------------
 ---- スクリーンショット ----
 --------------------
-local screenshot = os.getenv("HOME") .. "/.local/bin/screenshot.sh"
+-- 【重要】~/.local/bin/screenshot.sh を呼ばないこと。あれはインストーラが
+-- 書き出すもので、dotfiles を setup.sh でリンクしただけの環境には存在しない。
+-- 同じ動作のスクリプトを dotfiles 側（hypr/scripts/）に持たせてそちらを使う。
+-- 実行権が落ちても動くよう sh 経由で呼ぶ。
+local screenshot = "sh " .. os.getenv("HOME") .. "/.config/hypr/scripts/screenshot.sh"
 hl.bind("Print",         hl.dsp.exec_cmd(screenshot .. " area"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd(screenshot .. " screen"))
 
@@ -224,4 +230,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     -- 壁紙。設定は ~/.config/hypr/hyprpaper.conf を参照する。
     hl.exec_cmd("hyprpaper")
+    -- wallchange.sh で選んだ壁紙があれば、hyprpaper の起動を待って差し替える。
+    -- 選んだ壁紙を hyprpaper.conf に書き込まないための仕組み（理由はスクリプト参照）。
+    hl.exec_cmd("bash $HOME/.config/waybar/scripts/wallpaper_restore.sh")
+    -- 自動ロック（設定は ~/.config/hypr/hypridle.conf）
+    hl.exec_cmd("command -v hypridle >/dev/null && hypridle")
+    -- 日本語入力（niri 側の config.kdl と揃える）。
+    -- 未インストール環境（ibus を選んだ場合など）では何もしない。
+    -- ここに fcitx5 と書いてあれば、インストーラは重複して追記しない。
+    hl.exec_cmd("command -v fcitx5 >/dev/null && fcitx5 -d -r")
 end)

@@ -27,10 +27,26 @@ case "$ACTION" in
     logout|quit)
         PROMPT="ログアウトしますか？ ❯ "
         OPTION_EXEC="󰗼  ログアウト"
-        if command -v niri >/dev/null 2>&1; then
-            CMD="niri msg action quit -s"
+        # 【重要】`command -v niri` で判定しないこと。niri と Hyprland を両方
+        # 入れた環境では、Hyprland でログインしていても niri 側の終了コマンドが
+        # 選ばれ、ログアウトできなくなる。実際に走っているセッションで判定する。
+        # （判定方法は power_menu_toggle.sh と同じ）
+        case "${XDG_CURRENT_DESKTOP:-}" in
+            *Hyprland*|*hyprland*) WM="hyprland" ;;
+            *niri*|*Niri*)         WM="niri" ;;
+            *)
+                if [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then WM="hyprland"
+                elif [ -n "${NIRI_SOCKET:-}" ]; then WM="niri"
+                else WM="unknown"
+                fi
+                ;;
+        esac
+        if [ "$WM" = "hyprland" ] && command -v hyprctl >/dev/null 2>&1; then
+            CMD="hyprctl dispatch exit"
+        elif [ "$WM" = "niri" ] && command -v niri >/dev/null 2>&1; then
+            CMD="niri msg action quit --skip-confirmation"
         else
-            CMD="loginctl terminate-user $USER"
+            CMD="loginctl terminate-user \"\$USER\""
         fi
         ;;
     *)

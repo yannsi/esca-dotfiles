@@ -27,6 +27,17 @@ SELECTED=$(echo "$WALLPAPERS" | fuzzel --dmenu --prompt="🖼 壁紙を選択 �
 
 [ -z "$SELECTED" ] && exit 0
 
+# ── 選んだ壁紙を保存（次回ログイン時に wallpaper_restore.sh が読む）──
+# 【重要】保存先は ~/.config の外（状態ファイル）にすること。
+# setup.sh でリポジトリへリンクしている環境では ~/.config/hypr などは
+# リポジトリ内のファイルそのもので、そこに書くと壁紙を変えるたびに
+# 差分が出て git pull が衝突する（以前の scripts/wallpaper がこれだった）。
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/esca/wallpaper"
+save_selection() {
+    mkdir -p "$(dirname "$STATE_FILE")"
+    printf '%s\n' "$SELECTED" > "$STATE_FILE"
+}
+
 # ── 壁紙デーモンごとの適用 ──
 apply_hyprpaper() {
     # 【重要】preload は現在の hyprpaper では廃止されている。
@@ -36,11 +47,19 @@ apply_hyprpaper() {
     # 自分の版が受け付けるリクエストは hyprctl hyprpaper --help で確認できる。
     hyprctl hyprpaper wallpaper ",$SELECTED,cover" >/dev/null 2>&1 || return 1
 
-    # 次回ログイン時にも復元されるよう設定ファイルを更新する。
+    save_selection
+
+    # dotfiles をリンクしていない環境（自分で書いた hyprland 設定で
+    # wallpaper_restore.sh を自動起動していない環境）でも次回ログイン時に
+    # 復元されるよう、hyprpaper.conf も更新する。ただしリンク経由の場合は
+    # リポジトリを汚すので書かない（復元は wallpaper_restore.sh が行う）。
     # 【重要】hyprpaper.conf を書き換えるだけでは即時反映されない。
     # 上の hyprctl と両方が必要。
     # 【重要】書式はブロック形式。preload = / wallpaper = ,path の旧書式で
     # 書くと解釈されず、次回ログイン時に背景が真っ黒になる。
+    if [ -L "$HOME/.config/hypr" ] || [ -L "$HOME/.config/hypr/hyprpaper.conf" ]; then
+        return 0
+    fi
     mkdir -p "$HOME/.config/hypr"
     cat > "$HOME/.config/hypr/hyprpaper.conf" << EOF
 wallpaper {
@@ -57,10 +76,7 @@ EOF
 
 apply_swaybg() {
     command -v swaybg >/dev/null 2>&1 || return 1
-    # 再ログイン時に復元するための起動スクリプトを更新
-    printf '#!/bin/bash\nswaybg -i %q -m fill &\n' "$SELECTED" \
-        > "$HOME/.config/waybar/scripts/wallpaper"
-    chmod +x "$HOME/.config/waybar/scripts/wallpaper"
+    save_selection
 
     pkill -x swaybg 2>/dev/null
     swaybg -i "$SELECTED" -m fill &

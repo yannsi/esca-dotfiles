@@ -224,14 +224,14 @@
         "format": "  ",
         "tooltip": true,
         "tooltip-format": "画面ロック",
-        "on-click": "swaylock"
+        "on-click": "$HOME/.config/waybar/scripts/lock_screen.sh"
     },
 
-    // ログアウト (Niri)
+    // ログアウト（niri / Hyprland を実行時に判定。確認ダイアログあり）
     "custom/quit": {
         "format": " 󰗼 ",
         "tooltip": true,
-        "tooltip-format": "ログアウト (Niri終了)",
-        "on-click": "niri msg action quit -s"
+        "tooltip-format": "ログアウト",
+        "on-click": "$HOME/.config/waybar/scripts/confirm_power.sh logout"
     }
 }

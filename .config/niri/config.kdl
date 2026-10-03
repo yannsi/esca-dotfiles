@@ -264,7 +264,15 @@ spawn-at-startup "fcitx5"
 spawn-at-startup "mako"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
 spawn-at-startup "xwayland-satellite"
-// spawn-at-startup "swayidle" "-w" "timeout" "601" "niri msg action power-off-monitors" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f"
+
+// 壁紙。wallchange.sh で選んだ壁紙（未選択なら Esca の既定）を swaybg で表示する。
+// 【重要】ここに swaybg を固定パスで書かないこと。選んだ壁紙が再ログインで戻る。
+// $HOME を展開させるため sh 経由で呼ぶ。
+spawn-at-startup "sh" "-c" "bash $HOME/.config/waybar/scripts/wallpaper_restore.sh"
+
+// 自動ロック: 30分操作がなければロック、60分でサスペンド、スリープ前にもロック。
+// インストーラが追記する行と同じ内容（この行があればインストーラは追記しない）。
+spawn-at-startup "swayidle" "-w" "timeout" "1800" "swaylock -f" "timeout" "3600" "systemctl suspend" "before-sleep" "swaylock -f"
 
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.

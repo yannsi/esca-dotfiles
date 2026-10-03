@@ -12,3 +12,9 @@ archive/
 .config/waybar/scripts/cava_color.txt
 __pycache__/
 *.pyc
+
+# 実行時に書き換わる状態ファイル（環境ごとに違うので追跡しない）
+# wallpaper: wallchange.sh が選んだ壁紙を書き出す
+# weather_location.txt: set_weather_location.sh が保存する地域（未作成なら那覇）
+.config/waybar/scripts/wallpaper
+.config/waybar/scripts/weather_location.txt
